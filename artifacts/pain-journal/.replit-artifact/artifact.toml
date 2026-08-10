@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Pain Journal"
+description = "A private, mobile-friendly personal pain and symptom journal for recording daily experiences, reviewing chronological entries, and seeing color-coded symptom trends over time. Uses local data and clearly avoids diagnoses or treatment recommendations."
+version = "1.0.0"
+id = "artifacts/pain-journal"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24475
+
+[services.development]
+run = "pnpm --filter @workspace/pain-journal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pain-journal", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pain-journal/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24475"
+BASE_PATH = "/"
